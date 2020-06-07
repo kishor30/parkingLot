@@ -10,6 +10,7 @@ import java.util.Set;
 import com.parkinglot.exception.ParkingLotException;
 import com.parkinglot.model.AllocationStatus;
 import com.parkinglot.model.Car;
+import com.parkinglot.model.Ticket;
 import com.parkinglot.model.Vehicle;
 
 
@@ -57,7 +58,7 @@ public class TicketCreationService {
 	            boolean check= true;
 
 	                for (Ticket ticket : ticketDataMap.values()) {
-	                    if(vehicle.getRegistrationNumber().equals(ticket.vehicle.getRegistrationNumber())){
+	                    if(vehicle.getRegistrationNumber().equals(ticket.getVehicle().getRegistrationNumber())){
 	                        check= false;
 	                    }
 	                 }
@@ -97,8 +98,9 @@ public class TicketCreationService {
 	    int getSlotFromRegistrationNumber(String registrationNumber,Map<Integer, Ticket> ticketMap) {
 	    	Integer slot = -1;
 	    	Set<Entry<Integer,Ticket>> ticketValues = ticketMap.entrySet();
-	    	for(Entry<Integer, Ticket> ticket:ticketValues) {
-	    			if(registrationNumber.equalsIgnoreCase(ticket.getValue().vehicle.getRegistrationNumber()))
+	    	if(registrationNumber!=null) {
+	    		for(Entry<Integer, Ticket> ticket:ticketValues) {
+	    			if(registrationNumber.equalsIgnoreCase(ticket.getValue().getVehicle().getRegistrationNumber()))
 	    			{ 
 	    		
 	    				slot= ticket.getKey();
@@ -106,27 +108,22 @@ public class TicketCreationService {
 	    			}
 	    		
 	    	}
-	    	return slot;
+	    		return slot;
+	    	}
+	    	else {
+	    		throw new IllegalArgumentException("Invalid registration number.");
+	    	}
+	    	
 	    }
 	    List<AllocationStatus> getStatus() {
 	        List<AllocationStatus>allocationStatusList= new ArrayList<AllocationStatus>();
 	        for (Ticket ticket : ticketDataMap.values()) {
-	            allocationStatusList.add(new AllocationStatus(ticket.slotNumber, ticket.vehicle.getRegistrationNumber()));
+	            allocationStatusList.add(new AllocationStatus(ticket.getSlotNumber(), ticket.getVehicle().getRegistrationNumber()));
 	        }
 	        return allocationStatusList;
 	    }
 	    
-	    public class Ticket {
-	        int slotNumber;
-	        float parkingCost;
-	        Vehicle vehicle;
-
-	        Ticket(int slotNumber,float parkingCost, Vehicle vehicle) {
-	            this.slotNumber = slotNumber;
-	            this.vehicle = vehicle;
-	            this.parkingCost = parkingCost;
-	        }
-	    }
+	
 
 	
 

@@ -20,7 +20,7 @@ public class ParkingService {
 	    }
 
 	  
-	    private ParkingService(int slotNumbers){
+	    protected ParkingService(int slotNumbers){
 	    parkingslotsMap = new HashMap<Integer, Slot>();
 	    for (int i = 1; i <= slotNumbers; i++) {
 	        parkingslotsMap.put(i, new Slot(i));

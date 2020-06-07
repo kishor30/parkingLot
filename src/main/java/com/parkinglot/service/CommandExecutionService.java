@@ -5,7 +5,8 @@ import java.util.List;
 import com.parkinglot.exception.ParkingLotException;
 import com.parkinglot.model.AllocationStatus;
 import com.parkinglot.model.Car;
-import com.parkinglot.service.TicketCreationService.Ticket;
+import com.parkinglot.model.Ticket;
+
 
 public class CommandExecutionService {
 	
@@ -120,7 +121,7 @@ public class CommandExecutionService {
        public void commandValidation(){
 
            if( ParkingService.commandCallCounter()>1){
-               throw new ParkingLotException("Parking Lot once created cannot be Override");
+               throw new ParkingLotException("Parking Lot can only be created once");
            }
            if (commandwithArgument.length != 2) {
                throw new IllegalArgumentException("create_parking_lot should have legal arguments number");
@@ -175,8 +176,8 @@ public class CommandExecutionService {
        public String executeCommand() {
            TicketCreationService ticketService = TicketCreationService.getInstance();
            Ticket exitTicket =  ticketService.exitVehicle(commandwithArgument[1],Float.parseFloat(commandwithArgument[2]));
-           return "registration number "+exitTicket.vehicle.getRegistrationNumber()+ " with Slot number " + exitTicket.slotNumber 
-        		   + " is free with charge "+exitTicket.parkingCost;
+           return "registration number "+exitTicket.getVehicle().getRegistrationNumber()+ " with Slot number " + exitTicket.getSlotNumber() 
+        		   + " is free with charge "+exitTicket.getParkingCost();
        }
    }
    private class CheckStatus implements Command {
