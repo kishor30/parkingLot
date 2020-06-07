@@ -1,7 +1,11 @@
 package com.parkinglot.service;
 
 
+import java.util.List;
 import com.parkinglot.exception.ParkingLotException;
+import com.parkinglot.model.AllocationStatus;
+import com.parkinglot.model.Car;
+import com.parkinglot.service.TicketCreationService.Ticket;
 
 public class CommandExecutionService {
 	
@@ -68,13 +72,13 @@ public class CommandExecutionService {
                command = new CreateParkingLot(commandwithArgument);
                break;
            case park:
-             //  command = new Park(commandStringArray);
+               command = new Park(commandwithArgument);
                break;
            case leave:
-              // command = new Leave(commandStringArray);
+               command = new Leave(commandwithArgument);
                break;
            case status:
-               //command = new CheckStatus(commandStringArray);
+               command = new CheckStatus(commandwithArgument);
                break;
     
            default:
@@ -107,7 +111,8 @@ public class CommandExecutionService {
    
    private class CreateParkingLot implements Command {
        private String[] commandwithArgument;
-
+       
+     
        CreateParkingLot(String[] commandSentence) {
     	   System.out.println("creating parking lot as per command:"+commandSentence);
            commandwithArgument = commandSentence;
@@ -123,11 +128,81 @@ public class CommandExecutionService {
        }
 
        public String executeCommand() {
+    	   
            int numberOfSlots = Integer.parseInt(commandwithArgument[1]);
            TicketCreationService.createInstance(numberOfSlots);
            ParkingService.commandCallCounter();
            return "Created a parking lot with " + commandwithArgument[1] + " slots";
        }
    }
+   
+   private class Park implements Command {
+       private String[] commandwithArgument;
+
+       Park(String[] commandSentence) {
+           commandwithArgument = commandSentence;
+       }
+
+       public void commandValidation() {
+
+           if (commandwithArgument.length != 2) {
+               throw new IllegalArgumentException("park command should have exactly 2 arguments");
+           }
+       }
+
+       public String executeCommand() {
+    	   TicketCreationService ticketService = TicketCreationService.getInstance();
+           int allocatedSlotNumber = ticketService.issueParkingTicket(new Car(commandwithArgument[1]));
+           return "Allocated slot number: " + allocatedSlotNumber;
+       }
+   }
+
+  
+
+   private class Leave implements Command {
+       private String[] commandwithArgument;
+
+       Leave(String[] commandSentence) {
+           commandwithArgument = commandSentence;
+       }
+
+       public void commandValidation() {
+           if (commandwithArgument.length != 3) {
+               throw new IllegalArgumentException("leave command should have proper arguments");
+           }
+       }
+
+       public String executeCommand() {
+           TicketCreationService ticketService = TicketCreationService.getInstance();
+           Ticket exitTicket =  ticketService.exitVehicle(commandwithArgument[1],Integer.parseInt(commandwithArgument[2]));
+           return "registration number"+exitTicket.vehicle.getRegistrationNumber()+ " with Slot number " + exitTicket.slotNumber 
+        		   + " is free with charge"+exitTicket.parkingCost;
+       }
+   }
+   private class CheckStatus implements Command {
+       private String[] commandwithArgument;
+
+       CheckStatus(String[] commandSentence) {
+           commandwithArgument = commandSentence;
+       }
+
+       public void commandValidation() {
+           if (commandwithArgument.length != 1) {
+               throw new IllegalArgumentException("status command should have no arguments");
+           }
+       }
+
+       public String executeCommand() {
+           TicketCreationService ticketService = TicketCreationService.getInstance();
+           List<AllocationStatus> statusResponseList = ticketService.getStatus();
+
+           StringBuilder outputStringBuilder = new StringBuilder("Slot No.    Registration No    Colour");
+           for (AllocationStatus allocationStatus: statusResponseList) {
+               outputStringBuilder.append("\n").append(allocationStatus);
+           }
+           return outputStringBuilder.toString();
+       }
+   }
+
 
 }
