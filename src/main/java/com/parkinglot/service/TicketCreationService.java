@@ -47,7 +47,7 @@ public class TicketCreationService {
 	        }
 	        return ticketService;
 	    }
-
+//issue ticket to car owner and register number and allocate free slot for parking
 	    int issueParkingTicket(Vehicle vehicle) {
 	        if (vehicle == null) {
 	            throw new IllegalArgumentException("Vehicle cannot be null");
@@ -76,6 +76,7 @@ public class TicketCreationService {
 
 	    }
 	    
+	    //calculate fare on exit and deallocate parking slot 
 	    Ticket exitVehicle(String registrationNumber,float hoursParked) {
 	    	int slotNumber = this.getSlotFromRegistrationNumber(registrationNumber, ticketDataMap);
 	        if (ticketDataMap.containsKey(slotNumber)) {
@@ -87,6 +88,7 @@ public class TicketCreationService {
 	            throw new ParkingLotException("Registration number "+ registrationNumber +" not found.");
 	        }
 	    }
+	    //get fare for parking according to number of hours car parked
 	    float getParkingCost(float hoursParked) {
 	    	if(hoursParked ==1 || hoursParked == 2) {
 	    		return 10;
@@ -95,6 +97,12 @@ public class TicketCreationService {
 	    		return ((hoursParked - 2)*10)+10;
 	    	}
 	    }
+
+		/*
+		 * utility function to get slot by giving the registration number will return
+		 * slot number if car with registered number is parked
+		 * else will return -1 denoting car is not parked in slot
+		 */
 	    int getSlotFromRegistrationNumber(String registrationNumber,Map<Integer, Ticket> ticketMap) {
 	    	Integer slot = -1;
 	    	Set<Entry<Integer,Ticket>> ticketValues = ticketMap.entrySet();
@@ -115,6 +123,8 @@ public class TicketCreationService {
 	    	}
 	    	
 	    }
+	    
+	    //getStatus of parking lot details about slot and car parked in it
 	    List<AllocationStatus> getStatus() {
 	        List<AllocationStatus>allocationStatusList= new ArrayList<AllocationStatus>();
 	        for (Ticket ticket : ticketDataMap.values()) {

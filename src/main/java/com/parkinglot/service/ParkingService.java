@@ -19,7 +19,7 @@ public class ParkingService {
 	        return count;
 	    }
 
-	  
+	  //create parking with n capacity
 	    protected ParkingService(int slotNumbers){
 	    parkingslotsMap = new HashMap<Integer, Slot>();
 	    for (int i = 1; i <= slotNumbers; i++) {
@@ -37,7 +37,7 @@ public class ParkingService {
 	    return parkingService;
 	}
 
-
+//allocating parking is slot is empty otherwise parking full
 	    int fillAvailableSlot() throws ParkingLotException {
 	        int nextAvailableSlotNumber = -1;
 	        for (int i = 1; i <= parkingslotsMap.size(); i++) {
@@ -55,7 +55,7 @@ public class ParkingService {
 	        }
 	    }
 
-
+//vacating slot once car is exited
 	    void emptySlot(int slotNumber) {
 	        if (parkingslotsMap.containsKey(slotNumber)) {
 	            if (parkingslotsMap.get(slotNumber).isSlotEmpty) {

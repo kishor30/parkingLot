@@ -21,7 +21,7 @@ public class ParkingLotApplication {
           try (BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile))) {
         	    while (true) {
                     String commandStatement = bufferedReader.readLine();
-                   // System.out.println("commands are:"+commandStatement);
+                   
                     if (commandStatement == null || "exit".equalsIgnoreCase(commandStatement)) {
                         break;
                     } else {

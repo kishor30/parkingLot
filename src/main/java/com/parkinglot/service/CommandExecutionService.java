@@ -24,7 +24,7 @@ public class CommandExecutionService {
 		return commandExecutionService;
 	}
 	
-	
+	// enum holding all commands
     private enum CommandLine {
         create_parking_lot, park, leave, status 
     }
@@ -115,7 +115,7 @@ public class CommandExecutionService {
        
      
        CreateParkingLot(String[] commandSentence) {
-    	 //  System.out.println("creating parking lot as per command:"+commandSentence);
+    	
            commandwithArgument = commandSentence;
        }
        public void commandValidation(){
