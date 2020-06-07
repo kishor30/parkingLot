@@ -50,7 +50,7 @@ public class CommandExecutionService {
                try {
                    commandLine = CommandLine.valueOf(commandArray[0]);
                } catch (Exception e) {
-                   System.out.println("Command not Available");
+                   System.out.println("Command not Available:"+commandArray[0]);
                }
            }
        }
@@ -174,7 +174,7 @@ public class CommandExecutionService {
 
        public String executeCommand() {
            TicketCreationService ticketService = TicketCreationService.getInstance();
-           Ticket exitTicket =  ticketService.exitVehicle(commandwithArgument[1],Integer.parseInt(commandwithArgument[2]));
+           Ticket exitTicket =  ticketService.exitVehicle(commandwithArgument[1],Float.parseFloat(commandwithArgument[2]));
            return "registration number "+exitTicket.vehicle.getRegistrationNumber()+ " with Slot number " + exitTicket.slotNumber 
         		   + " is free with charge "+exitTicket.parkingCost;
        }

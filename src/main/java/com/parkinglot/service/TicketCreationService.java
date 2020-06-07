@@ -75,7 +75,7 @@ public class TicketCreationService {
 
 	    }
 	    
-	    Ticket exitVehicle(String registrationNumber,int hoursParked) {
+	    Ticket exitVehicle(String registrationNumber,float hoursParked) {
 	    	int slotNumber = this.getSlotFromRegistrationNumber(registrationNumber, ticketDataMap);
 	        if (ticketDataMap.containsKey(slotNumber)) {
 	            parkingService.emptySlot(slotNumber);
