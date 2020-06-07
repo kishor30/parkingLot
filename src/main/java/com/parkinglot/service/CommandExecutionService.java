@@ -60,7 +60,7 @@ public class CommandExecutionService {
    public boolean runCommand(String commandFromFile) {
 
        CommandLine commandLine = getCommand(commandFromFile);
-       System.out.println("commandLine is:"+commandLine);
+     
        if (commandLine == null) {
            return false;
        }
@@ -114,7 +114,7 @@ public class CommandExecutionService {
        
      
        CreateParkingLot(String[] commandSentence) {
-    	   System.out.println("creating parking lot as per command:"+commandSentence);
+    	 //  System.out.println("creating parking lot as per command:"+commandSentence);
            commandwithArgument = commandSentence;
        }
        public void commandValidation(){
@@ -175,8 +175,8 @@ public class CommandExecutionService {
        public String executeCommand() {
            TicketCreationService ticketService = TicketCreationService.getInstance();
            Ticket exitTicket =  ticketService.exitVehicle(commandwithArgument[1],Integer.parseInt(commandwithArgument[2]));
-           return "registration number"+exitTicket.vehicle.getRegistrationNumber()+ " with Slot number " + exitTicket.slotNumber 
-        		   + " is free with charge"+exitTicket.parkingCost;
+           return "registration number "+exitTicket.vehicle.getRegistrationNumber()+ " with Slot number " + exitTicket.slotNumber 
+        		   + " is free with charge "+exitTicket.parkingCost;
        }
    }
    private class CheckStatus implements Command {
@@ -196,7 +196,7 @@ public class CommandExecutionService {
            TicketCreationService ticketService = TicketCreationService.getInstance();
            List<AllocationStatus> statusResponseList = ticketService.getStatus();
 
-           StringBuilder outputStringBuilder = new StringBuilder("Slot No.    Registration No    Colour");
+           StringBuilder outputStringBuilder = new StringBuilder("Slot No.    Registration No");
            for (AllocationStatus allocationStatus: statusResponseList) {
                outputStringBuilder.append("\n").append(allocationStatus);
            }

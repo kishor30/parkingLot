@@ -11,7 +11,7 @@ public class ParkingService {
 
 
 	    private static ParkingService parkingService;
-	    private static Map<Integer,Slots> parkingslotsMap;
+	    private static Map<Integer,Slot> parkingslotsMap;
 	    static  int count =0;
 
 	    static int commandCallCounter(){
@@ -21,9 +21,9 @@ public class ParkingService {
 
 	  
 	    private ParkingService(int slotNumbers){
-	    parkingslotsMap = new HashMap<Integer, Slots>();
+	    parkingslotsMap = new HashMap<Integer, Slot>();
 	    for (int i = 1; i <= slotNumbers; i++) {
-	        parkingslotsMap.put(i, new Slots(i));
+	        parkingslotsMap.put(i, new Slot(i));
 	    }
 	}
 
@@ -41,10 +41,10 @@ public class ParkingService {
 	    int fillAvailableSlot() throws ParkingLotException {
 	        int nextAvailableSlotNumber = -1;
 	        for (int i = 1; i <= parkingslotsMap.size(); i++) {
-	            Slots s = parkingslotsMap.get(i);
-	            if (s.status) {
+	            Slot s = parkingslotsMap.get(i);
+	            if (s.isSlotEmpty) {
 	                nextAvailableSlotNumber = s.slotNumbers;
-	                s.status = false;
+	                s.isSlotEmpty = false;
 	                break;
 	            }
 	        }
@@ -58,10 +58,10 @@ public class ParkingService {
 
 	    void emptySlot(int slotNumber) {
 	        if (parkingslotsMap.containsKey(slotNumber)) {
-	            if (parkingslotsMap.get(slotNumber).status) {
+	            if (parkingslotsMap.get(slotNumber).isSlotEmpty) {
 	                throw new IllegalStateException("The slot is already empty");
 	            } else {
-	                parkingslotsMap.get(slotNumber).status = true;
+	                parkingslotsMap.get(slotNumber).isSlotEmpty = true;
 	            }
 	        } else {
 	            throw new IllegalStateException("The slot number is invalid");
@@ -69,13 +69,13 @@ public class ParkingService {
 	    }
 
 
-	    private class Slots {
+	    private class Slot {
 	    private int slotNumbers;
-	    private boolean status;
+	    private boolean isSlotEmpty;
 
-	        public Slots(int slotNumbers) {
+	        public Slot(int slotNumbers) {
 	            this.slotNumbers = slotNumbers;
-	            this.status = true;
+	            this.isSlotEmpty = true;
 	        }
 	    }
 

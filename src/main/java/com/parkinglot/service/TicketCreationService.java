@@ -83,7 +83,7 @@ public class TicketCreationService {
 	            return new Ticket(slotNumber,this.getParkingCost(hoursParked),new Car(registrationNumber)); 
 	            
 	        } else {
-	            throw new ParkingLotException("No vehicle found at given slot. Incorrect input");
+	            throw new ParkingLotException("Registration number "+ registrationNumber +" not found.");
 	        }
 	    }
 	    float getParkingCost(float hoursParked) {
@@ -98,8 +98,12 @@ public class TicketCreationService {
 	    	Integer slot = -1;
 	    	Set<Entry<Integer,Ticket>> ticketValues = ticketMap.entrySet();
 	    	for(Entry<Integer, Ticket> ticket:ticketValues) {
-	    			if(registrationNumber.equals(ticket.getValue().vehicle.getRegistrationNumber()));
-	    			slot= ticket.getKey();
+	    			if(registrationNumber.equalsIgnoreCase(ticket.getValue().vehicle.getRegistrationNumber()))
+	    			{ 
+	    		
+	    				slot= ticket.getKey();
+	    			
+	    			}
 	    		
 	    	}
 	    	return slot;

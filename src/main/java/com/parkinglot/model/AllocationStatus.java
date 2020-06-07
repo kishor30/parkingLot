@@ -41,8 +41,8 @@ public class AllocationStatus {
 
 		@Override
 		public String toString() {
-			return "AllocationStatus [slot=" + slot + ", registrationNumber=" + registrationNumber 
-					+ "]";
+			return "   "+ slot + "           " + registrationNumber 
+					+ " ";
 		}
 	    
 		
