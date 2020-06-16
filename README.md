@@ -1,6 +1,6 @@
 # Parking Lot  problem Design  Document
 
-This is the solution to problem statement given by Coditas to create an automatic ticketing system for car parking.
+This is the solution to problem statement to create an automatic ticketing system for car parking.
 
 ## Problem Statement:
 
